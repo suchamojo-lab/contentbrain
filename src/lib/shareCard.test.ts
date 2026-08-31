@@ -1,0 +1,2 @@
+import {describe,expect,it} from "vitest";import {wrapShareCardText} from "./shareCard";
+describe("share card text wrapping",()=>{it("keeps lines inside the measured width",()=>{const result=wrapShareCardText("Storytelling and artificial intelligence for thoughtful creators",18,(value)=>value.length);expect(result.every((line)=>line.length<=18)).toBe(true);expect(result.join(" ")).toContain("thoughtful creators")})});

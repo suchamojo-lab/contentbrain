@@ -1,0 +1,5 @@
+import { TOPMATE_URL } from "../ResearchPaywall";
+import { BrainVisualization } from "./BrainVisualization";
+
+export function LandingNav({ onStart }: { onStart: () => void }) { return <nav className="v3-nav"><a href="#top">Suchamojo</a><div><a href="#how">How it works</a><a href="#brain">Content Brain</a></div><button onClick={onStart}>Build my Content Universe →</button></nav>; }
+export function Hero({ onStart }: { onStart: () => void }) { return <section className="v3-hero" id="top"><LandingNav onStart={onStart} /><div className="v3-hero__copy"><span>YOUR EXPERIENCES + EXPERTISE + OPINIONS + IDEAS</span><h1>Build your<br /><em>content brain.</em></h1><p>Turn your experiences, expertise, opinions, interests and ideas into a content system that actually understands you.</p><div><button onClick={onStart} aria-label="Build my Content Universe">Build my Content Universe →</button><a href="#how">See how it works ↓</a></div><small>Free to build. No generic content pillars. Built around you.</small></div><BrainVisualization /><a className="v3-team-link" href={TOPMATE_URL} target="_blank" rel="noreferrer">BUILD WITH THE TEAM ↗</a></section>; }

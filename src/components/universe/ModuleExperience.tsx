@@ -1,0 +1,21 @@
+import {useEffect,useState} from "react";
+import type {UniverseAnswers} from "../../lib/recommendation";
+import {questionsForModule,type ModuleSlug,moduleForSlug} from "../../data/universeModules";
+
+const examples:Record<string,string>={story_early:"I grew up moving between cities and was the kid who made systems for everything.",power_asked:"People call when they need a complicated idea made clear.",rabbit_topics:"Creator businesses, behavioural science and how technology changes work.",takes_advice:"Everyone says post every day, but I think a clear point of view matters more than volume.",people_who:"A founder with real experience who knows they should share it but never knows where to begin.",proof_results:"I helped 40 founders turn their expertise into a repeatable content system.",future_known:"They’re the person who makes complex ideas useful and memorable."};
+
+export function ModuleExperience({slug,mode,answers,error,onChange,onBack,onComplete}:{slug:ModuleSlug;mode:"quick"|"deep";answers:UniverseAnswers;error:string;onChange:(key:string,value:string)=>void;onBack:()=>void;onComplete:()=>void}) {
+ const module=moduleForSlug(slug)!;const questions=questionsForModule(slug,mode);const firstOpen=questions.findIndex((question)=>!(answers[question.key]??"").trim());
+ const [index,setIndex]=useState(firstOpen<0?0:firstOpen);const [saved,setSaved]=useState(true);const [showExample,setShowExample]=useState(false);
+ const question=questions[index];const value=answers[question.key]??"";const selected=value?value.split(", ").filter(Boolean):[];
+ useEffect(()=>{if(saved)return;const timer=setTimeout(()=>setSaved(true),550);return()=>clearTimeout(timer)},[answers,saved]);
+ useEffect(()=>setShowExample(false),[index]);
+ const update=(next:string)=>{setSaved(false);onChange(question.key,next)};
+ const next=()=>{if(index<questions.length-1)setIndex(index+1);else onComplete()};
+ return <main className={`module-world module-world--${slug}`}><div className="module-world__background" aria-hidden="true"/><header className="module-nav"><button onClick={onBack}>← ALL FOLDERS</button><div><span>{module.title.toUpperCase()}</span><strong>{index+1} OF {questions.length}</strong></div><i>{saved?"SAVED ✓":"SAVING…"}</i></header>
+  <section className="single-question"><aside className="single-question__folder" aria-hidden="true"><i>{module.number}</i><strong>{module.title}</strong><small>{questions.filter((item)=>(answers[item.key]??"").trim()).length} FILES INSIDE</small></aside><article><span>QUESTION {index+1} / {questions.length}</span><h1>{question.title}</h1><p>{question.help}</p>{question.kind==="multi"?<div className="module-choices">{question.choices?.map((choice)=>{const active=selected.includes(choice);return <button type="button" className={active?"is-selected":""} aria-pressed={active} key={choice} onClick={()=>update((active?selected.filter((item)=>item!==choice):[...selected,choice]).join(", "))}>{choice}<b>{active?"✓":"+"}</b></button>})}</div>:<label><span className="sr-only">{question.title}</span><textarea autoFocus value={value} onChange={(event)=>update(event.target.value)} placeholder={question.placeholder??"Write what actually happened…"}/></label>}
+   <button className="question-example" type="button" onClick={()=>setShowExample(!showExample)}>{showExample?"HIDE EXAMPLE":"SHOW AN EXAMPLE"} {showExample?"−":"+"}</button>{showExample?<blockquote>{examples[question.key]??"Write it as you would tell a friend. Specific details are more useful than polished language."}</blockquote>:null}
+   {error?<p className="module-error" role="alert">{error}</p>:null}<footer><button disabled={index===0} onClick={()=>setIndex(Math.max(0,index-1))}>← BACK</button><button onClick={next}>{index===questions.length-1?`MAP MY ${module.title.replace("Your ","").toUpperCase()} ↵`:value.trim()?"SAVE & CONTINUE →":"SKIP FOR NOW →"}</button></footer></article></section>
+  <nav className="question-dots" aria-label="Questions">{questions.map((item,itemIndex)=><button key={item.key} className={`${itemIndex===index?"is-current":""} ${(answers[item.key]??"").trim()?"is-answered":""}`} onClick={()=>setIndex(itemIndex)} aria-label={`Question ${itemIndex+1}${(answers[item.key]??"").trim()?", answered":""}`}>{itemIndex+1}</button>)}</nav>
+ </main>;
+}

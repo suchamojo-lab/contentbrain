@@ -1,0 +1,3 @@
+import {describe,expect,it} from "vitest";import {isAuthPath,isWorkspacePath,workspacePath} from "./routes";
+describe("workspace routes",()=>{it("recognises private and account routes",()=>{expect(isWorkspacePath("/app")).toBe(true);expect(isWorkspacePath("/app/library")).toBe(true);expect(isWorkspacePath("/universe")).toBe(false);expect(isAuthPath("/login")).toBe(true);expect(isAuthPath("/signup")).toBe(true)});it("keeps draft detail pages inside Create",()=>{expect(workspacePath("/app/create/draft-123")).toBe("/app/create");expect(workspacePath("/unknown")).toBe("/app")})});
+

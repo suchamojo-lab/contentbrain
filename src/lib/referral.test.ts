@@ -1,0 +1,2 @@
+import {beforeEach,describe,expect,it} from "vitest";import {referralProperties,saveReferralShareId} from "./referral";
+describe("share referral",()=>{beforeEach(()=>sessionStorage.clear());it("keeps a safe public slug",()=>{saveReferralShareId("abc12345def67890");expect(referralProperties()).toEqual({referral_share_id:"abc12345def67890",source:"public_universe"})});it("rejects unsafe values",()=>{saveReferralShareId("../../private");expect(referralProperties()).toEqual({})})});

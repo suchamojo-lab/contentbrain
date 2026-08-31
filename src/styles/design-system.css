@@ -1,0 +1,102 @@
+:root {
+  --type-family-body: "Inter", Arial, sans-serif;
+  --type-family-heading: "Instrument Serif", Georgia, serif;
+  --type-weight-regular: 400;
+  --type-weight-medium: 500;
+  --type-weight-semibold: 600;
+  --type-weight-bold: 700;
+  --type-size-meta: .75rem;
+  --type-size-small: .875rem;
+  --type-size-body: 1rem;
+  --type-size-body-large: 1.125rem;
+  --type-size-h6: 1.25rem;
+  --type-size-h5: 1.5rem;
+  --type-size-h4: clamp(1.75rem, 2.5vw, 2.5rem);
+  --type-size-h3: clamp(2.125rem, 4vw, 3.75rem);
+  --type-size-h2: clamp(3rem, 6.5vw, 6.5rem);
+  --type-size-h1: clamp(4rem, 9vw, 9rem);
+  --type-leading-tight: .9;
+  --type-leading-heading: 1.02;
+  --type-leading-body: 1.6;
+  --type-leading-ui: 1.3;
+
+  --surface-radius-none: 0;
+  --surface-radius-small: .5rem;
+  --surface-radius-medium: .75rem;
+  --surface-radius-large: 1.125rem;
+  --surface-radius-pill: 999px;
+  --surface-border-width: 1px;
+  --surface-border-color: color-mix(in srgb, currentColor 14%, transparent);
+  --surface-border: var(--surface-border-width) solid var(--surface-border-color);
+  --surface-background: color-mix(in srgb, currentColor 4%, transparent);
+  --surface-padding-small: .75rem;
+  --surface-padding-medium: 1rem;
+  --surface-padding-large: 1.5rem;
+  --surface-button-padding: .75rem 1rem;
+  --surface-shadow-low: 0 .5rem 1.5rem rgba(0,0,0,.12);
+  --surface-shadow-high: 0 1.5rem 4rem rgba(0,0,0,.24);
+}
+
+html,body,#root {
+  font-family: var(--type-family-body);
+  font-size: var(--type-size-body);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-body);
+}
+
+#root :is(h1,h2,h3,h4,h5,h6) {
+  font-family: var(--type-family-heading);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-leading-heading);
+  text-wrap: balance;
+}
+#root h1 { font-size: var(--type-size-h1); line-height: var(--type-leading-tight); }
+#root h2 { font-size: var(--type-size-h2); line-height: var(--type-leading-tight); }
+#root h3 { font-size: var(--type-size-h3); }
+#root h4 { font-size: var(--type-size-h4); }
+#root h5 { font-size: var(--type-size-h5); }
+#root h6 { font-size: var(--type-size-h6); }
+#root article h2,#root button h2 { font-size: var(--type-size-h5); }
+#root article h3,#root button h3 { font-size: var(--type-size-h6); }
+#root :is(p,li,dd,dt,blockquote) { font-size: var(--type-size-body); line-height: var(--type-leading-body); }
+#root :is(button,input,textarea,select,label) {
+  font-family: var(--type-family-body);
+  font-size: var(--type-size-small);
+  font-weight: var(--type-weight-medium);
+  line-height: var(--type-leading-ui);
+}
+#root :is(small,.eyebrow,.editorial-kicker,[class*="-label"],[class*="__label"]) {
+  font-family: var(--type-family-body);
+  font-size: var(--type-size-meta);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-ui);
+}
+#root :is(header>span,article>span,section>span,aside>span,footer>span) {
+  font-family: var(--type-family-body);
+  font-size: var(--type-size-meta);
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-leading-ui);
+}
+#root :is(strong,b) { font-weight: var(--type-weight-semibold); }
+
+#root :is(button,input,textarea,select) { border-radius: var(--surface-radius-small); }
+#root :is(.brain-think,.training-panel,.brain-tool-workbench,.brain-anything,.brain-noticed article,.brain-empty,.recent-focus,.library-search,.library-grid>article,.workspace-empty,.universe-pair>article,.workspace-pillars,.workspace-story-bank,.workspace-idea-universe,.training-card-grid>button,.reading-queue,.pl5-product-window,.pl5-proof article,.pl5-human article) {
+  border: var(--surface-border);
+  border-radius: var(--surface-radius-large);
+  box-shadow: var(--surface-shadow-low);
+}
+#root :is(.brain-quick-actions>button,.brain-tool-grid>button,.workspace-pillars article,.workspace-story-bank article,.workspace-idea-universe article,.brain-result-list>article) {
+  border: var(--surface-border);
+  border-radius: var(--surface-radius-medium);
+  box-shadow: none;
+}
+#root :is(.brain-think,.brain-tool-workbench,.brain-anything,.brain-noticed article,.brain-empty,.recent-focus,.workspace-empty,.training-card-grid>button) { padding: var(--surface-padding-large); }
+#root :is(button) { padding: var(--surface-button-padding); }
+
+@media (max-width: 700px) {
+  :root {
+    --type-size-h1: clamp(3rem, 15vw, 4.5rem);
+    --type-size-h2: clamp(2.5rem, 12vw, 3.75rem);
+    --type-size-h3: clamp(2rem, 9vw, 3rem);
+  }
+}

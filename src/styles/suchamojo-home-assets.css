@@ -1,0 +1,33 @@
+.sm-wordmark {
+  font-style: normal;
+}
+
+.sm-overload__art {
+  background-image: url("../../outputs/suchamojo-creative-overwhelm-hero-v3.png"), url("/suchamojo-content-world-v1.png");
+}
+
+.sm-overload .sm-primary {
+  background: var(--sm-yellow);
+  border-color: var(--sm-yellow);
+  box-shadow: none;
+}
+
+.sm-overload .sm-primary:hover {
+  box-shadow: 7px 7px 0 #fff;
+}
+
+.sm-tunnel-scene::before {
+  background: linear-gradient(180deg, rgba(5, 8, 13, .76), rgba(5, 8, 13, .12) 38%, rgba(5, 8, 13, .62)), url("../../outputs/suchamojo-content-tunnel-v1.png") center / cover no-repeat;
+  opacity: .9;
+}
+
+@media (max-width: 600px) {
+  .sm-overload__art {
+    background-position: 57% center;
+  }
+
+  .sm-tunnel-scene::before {
+    background-position: 51% center;
+    opacity: .55;
+  }
+}
