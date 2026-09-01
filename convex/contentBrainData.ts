@@ -28,12 +28,12 @@ export const findCached = internalQuery({
 });
 
 export const saveGenerated = internalMutation({
-  args: { ...owner, answers: activationAnswers, answersHash: v.string(), universe: legacyUniverse, activationUniverse }, returns: v.id("contentUniverses"),
+  args: { ...owner, answers: activationAnswers, answersHash: v.string(), aiModel: v.string(), universe: legacyUniverse, activationUniverse }, returns: v.id("contentUniverses"),
   handler: async (ctx, args) => {
     if (!args.userId && !args.clientId) throw new Error("Missing Content Brain owner");
     const existing = args.userId ? await ctx.db.query("contentUniverses").withIndex("by_userId", (q) => q.eq("userId", args.userId)).order("desc").first() : await ctx.db.query("contentUniverses").withIndex("by_clientId", (q) => q.eq("clientId", args.clientId)).order("desc").first();
     const storedAnswers = { character: args.answers.character, gifts: args.answers.naturalAuthority, obsessions: args.answers.obsessions, expression: [...args.answers.expressionFormats, args.answers.expressionNotes].filter(Boolean).join(". ") };
-    const values = { answers: storedAnswers, answersHash: args.answersHash, aiModel: MODEL, aiSchemaVersion: SCHEMA_VERSION, universe: args.universe, activationUniverseV1: args.activationUniverse, updatedAt: Date.now() };
+    const values = { answers: storedAnswers, answersHash: args.answersHash, aiModel: args.aiModel, aiSchemaVersion: SCHEMA_VERSION, universe: args.universe, activationUniverseV1: args.activationUniverse, updatedAt: Date.now() };
     if (existing) { await ctx.db.patch(existing._id, values); return existing._id; }
     return await ctx.db.insert("contentUniverses", { userId: args.userId, clientId: args.clientId, ...values, createdAt: Date.now() });
   },

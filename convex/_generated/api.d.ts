@@ -9,6 +9,7 @@
  */
 
 import type * as ResendOTPPasswordReset from "../ResendOTPPasswordReset.js";
+import type * as ai_fallback from "../ai/fallback.js";
 import type * as ai_gemini from "../ai/gemini.js";
 import type * as ai_types from "../ai/types.js";
 import type * as auth from "../auth.js";
@@ -37,6 +38,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   ResendOTPPasswordReset: typeof ResendOTPPasswordReset;
+  "ai/fallback": typeof ai_fallback;
   "ai/gemini": typeof ai_gemini;
   "ai/types": typeof ai_types;
   auth: typeof auth;
