@@ -182,6 +182,7 @@ h1,h2,h3,p { margin-top:0; } h1,h2,h3 { text-wrap:balance; } p { text-wrap:prett
 .auth-panel input:focus { border-color: #d87a43; }
 .auth-submit { margin-top: 8px; min-height: 56px; border: 1px solid #f1ebdd; border-radius: 999px; background: #f1ebdd; color: #050505; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .auth-submit:disabled { opacity: .55; cursor: wait; }
+.auth-link { width: fit-content; border: 0; padding: 4px 0; background: transparent; color: inherit; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .auth-error { margin: 0; color: #f2a078; }
 .auth-note { margin: 22px 0 0; color: rgba(241,235,221,.42); }
 @media (max-width: 760px) { .auth-page { grid-template-columns: 1fr; align-content: start; padding-top: 100px; } .auth-intro h1 { } .auth-intro p { } }

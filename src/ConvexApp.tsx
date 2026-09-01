@@ -5,6 +5,7 @@ import { api } from "../convex/_generated/api";
 import type { Id } from "../convex/_generated/dataModel";
 import App, { type ContentPersistence } from "./App";
 import { AuthPage } from "./components/auth/AuthPage";
+import { PasswordResetPage } from "./components/auth/PasswordResetPage";
 import { WorkspaceShell } from "./components/workspace/WorkspaceShell";
 import {
   isAuthPath,
@@ -167,6 +168,7 @@ export function ConvexApp() {
   if (isAuthPath(path)) {
     if (isAuthenticated)
       return <main className="auth-loading">Opening the right place…</main>;
+    if (path === "/forgot-password") return <PasswordResetPage />;
     return <AuthPage mode={path === "/signup" ? "signUp" : "signIn"} />;
   }
   const persistence: ContentPersistence = {

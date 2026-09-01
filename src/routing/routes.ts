@@ -2,7 +2,7 @@ export const workspacePaths=["/app","/app/universe","/app/inbox","/app/library",
 export type WorkspacePath=typeof workspacePaths[number];
 
 export function isWorkspacePath(pathname:string){return pathname==="/app"||pathname.startsWith("/app/")}
-export function isAuthPath(pathname:string){return pathname==="/login"||pathname==="/signup"}
+export function isAuthPath(pathname:string){return pathname==="/login"||pathname==="/signup"||pathname==="/forgot-password"}
 export function workspacePath(pathname:string):WorkspacePath{
  if(pathname.startsWith("/app/create/"))return "/app/create";
  return workspacePaths.includes(pathname as WorkspacePath)?pathname as WorkspacePath:"/app";

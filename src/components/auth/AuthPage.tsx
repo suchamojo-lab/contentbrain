@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { navigateTo } from "../../routing/routes";
+import { authErrorMessage } from "../../lib/authError";
 import { PublicSiteLayout } from "../site/PublicSiteLayout";
 
 export function AuthPage({ mode }: { mode: "signUp" | "signIn" }) {
@@ -17,15 +18,7 @@ export function AuthPage({ mode }: { mode: "signUp" | "signIn" }) {
     try {
       await signIn("password", form);
     } catch (cause) {
-      const message =
-        cause instanceof Error
-          ? cause.message
-          : "We couldn't sign you in. Please try again.";
-      setError(
-        message.includes("Invalid credentials")
-          ? "That email or password doesn’t match."
-          : message,
-      );
+      setError(authErrorMessage(cause));
       setBusy(false);
     }
   };
@@ -65,6 +58,13 @@ export function AuthPage({ mode }: { mode: "signUp" | "signIn" }) {
             ) : null}
             <button className="auth-submit" disabled={busy}>
               {busy ? "SIGNING IN…" : "SIGN IN →"}
+            </button>
+            <button
+              className="auth-link"
+              type="button"
+              onClick={() => navigateTo("/forgot-password")}
+            >
+              Forgot password?
             </button>
           </form>
           <footer>

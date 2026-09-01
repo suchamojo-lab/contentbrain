@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { authErrorMessage } from "../../lib/authError";
 
 export function AuthScreen({ onBack }: { onBack: () => void }) {
   const { signIn } = useAuthActions();
@@ -16,8 +17,7 @@ export function AuthScreen({ onBack }: { onBack: () => void }) {
     try {
       await signIn("password", form);
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "We couldn't sign you in. Please try again.";
-      setError(message.includes("Invalid credentials") ? "That email or password doesn't match." : message);
+      setError(authErrorMessage(cause));
     } finally {
       setBusy(false);
     }
