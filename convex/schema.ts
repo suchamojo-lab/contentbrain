@@ -129,6 +129,33 @@ export default defineSchema({
     .index("by_userId", ["userId"])
     .index("by_userId_and_universeId", ["userId", "universeId"]),
 
+  emailPreferences: defineTable({
+    userId: v.id("users"),
+    email: v.string(),
+    unsubscribeToken: v.string(),
+    unsubscribedAt: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_unsubscribeToken", ["unsubscribeToken"]),
+
+  lifecycleEmails: defineTable({
+    userId: v.id("users"),
+    universeId: v.id("contentUniverses"),
+    kind: v.literal("universe_completed"),
+    status: v.union(
+      v.literal("sending"),
+      v.literal("sent"),
+      v.literal("failed"),
+    ),
+    providerId: v.optional(v.string()),
+    error: v.optional(v.string()),
+    sentAt: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_userId_and_kind", ["userId", "kind"]),
+
   onboardingAnswers: defineTable({
     userId: v.optional(v.id("users")),
     guestSessionId: v.optional(v.string()),

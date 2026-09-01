@@ -17,11 +17,25 @@ export const build = action({
   handler: async (ctx, args): Promise<{ id: Id<"contentUniverses">; universe: Infer<typeof legacyUniverse>; activationUniverse: Infer<typeof activationUniverse>; cached: boolean }> => {
     const userId = await getAuthUserId(ctx); const clientId = userId ? undefined : validGuest(args.guestSessionId); const answersHash = fingerprint(args.answers);
     const cached: { id: Id<"contentUniverses">; universe: Infer<typeof legacyUniverse>; activationUniverse: Infer<typeof activationUniverse> } | null = await ctx.runQuery(internal.contentBrainData.findCached, { userId: userId ?? undefined, clientId, answersHash });
-    if (cached) return { ...cached, cached: true };
+    if (cached) {
+      if (userId)
+        await ctx.scheduler.runAfter(
+          0,
+          internal.lifecycleEmailSender.sendUniverseComplete,
+          { userId, universeId: cached.id },
+        );
+      return { ...cached, cached: true };
+    }
     try {
       const generated = await createGeminiProvider().generateContentUniverse(args.answers);
       const universe = { thesis: generated.character.summary, positioning: generated.territory.positioning, audience: "People who connect with the user's stated experience and interests.", pillars: generated.contentPillars.map((item) => item.title), themes: generated.territory.territories.map((item) => item.title), stories: generated.storyBank.map((item) => item.title), expertise: generated.gifts.naturalStrengths, obsessions: generated.radiance.topics, formats: generated.expression.bestFormats, voice: [generated.expression.profile], ideas: generated.ideaUniverse.flatMap((group) => group.ideas) };
       const id: Id<"contentUniverses"> = await ctx.runMutation(internal.contentBrainData.saveGenerated, { userId: userId ?? undefined, clientId, answers: args.answers, answersHash, universe, activationUniverse: generated });
+      if (userId)
+        await ctx.scheduler.runAfter(
+          0,
+          internal.lifecycleEmailSender.sendUniverseComplete,
+          { userId, universeId: id },
+        );
       return { id, universe, activationUniverse: generated, cached: false };
     } catch (error) {
       if (error instanceof AiRateLimitError) throw error;
